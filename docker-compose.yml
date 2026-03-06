@@ -16,26 +16,28 @@ services:
     volumes:
       - ./:/var/www/html
     environment:
-      - DB_HOST=mysql
+      - DB_HOST=postgres
     depends_on:
-      - mysql
+      - postgres
     networks:
       - app-network
 
-  mysql:
-    image: mysql:8.0
+  # PostgreSQL 資料庫服務
+  postgres:
+    image: postgres:18-alpine
     environment:
-      MYSQL_DATABASE: taskdb
-      MYSQL_ROOT_PASSWORD: secret
+      POSTGRES_DB: taskdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - app-network
 
 volumes:
-  mysql_data:
+  postgres_data:
 
 networks:
   app-network:
