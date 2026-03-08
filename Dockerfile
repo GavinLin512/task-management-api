@@ -9,7 +9,7 @@ RUN composer install \
     --prefer-dist \
     --optimize-autoloader
 
-FROM php:8.2-fpm-alpine
+FROM php:8.2-cli-alpine
 
 RUN apk add --no-cache \
     icu-dev \
@@ -42,5 +42,5 @@ COPY --from=vendor /app/vendor ./vendor
 
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-EXPOSE 9000
-CMD ["php-fpm"]
+EXPOSE 10000
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-10000}"]
